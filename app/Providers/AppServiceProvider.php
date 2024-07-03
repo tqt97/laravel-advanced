@@ -6,6 +6,9 @@ use App\Billings\BankPaymentGateway;
 use App\Billings\CreditPaymentGateway;
 use Illuminate\Support\ServiceProvider;
 use App\Billings\PaymentGatewayContract;
+use App\Http\View\Composers\TodoComposer;
+use App\Models\Todo;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +30,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // option 1 - Every single view
+        // View::share('todos', Todo::orderBy('title', 'asc')->get());
+
+        // option 2 - Only specific views
+        // View::composer(['todos.index', 'todos.create'], function ($view) {
+        //     $view->with('todos', Todo::orderBy('title', 'asc')->get());
+        // });
+
+        // option 3 - Dedicated class
+        View::composer(['partials.todos.*'], TodoComposer::class);
     }
 }
