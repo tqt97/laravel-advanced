@@ -53,4 +53,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Todo::class);
     }
+
+    /**
+     * Get the user's posts.
+     */
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Get the user's images.
+     */
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }
